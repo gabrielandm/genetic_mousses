@@ -120,13 +120,13 @@ def run_evolution(
 start = time.time()
 population, generations = run_evolution(
     populate_func = partial(
-        generate_population, size = 10, genome_lenght=len(more_things)
+        generate_population, size = 10, genome_lenght=len(more_things) # Limit size of a population
     ),
     fitness_func = partial(
-        fitness, things = more_things, weight_limit = 1500
+        fitness, things = more_things, weight_limit = 3000 # Limit of weight of list of items
     ),
-    fitness_limit = 1310,
-    generation_limit = 100
+    fitness_limit = 1448, # Minimum desired "value" value of list of items
+    generation_limit = 100 # Limit of generations
 )
 end = time.time()
 
@@ -138,7 +138,16 @@ def genome_to_things(genome: Genome, things: Thing) -> Thing:
     
     return result
 
+def genome_to_value(genome: Genome, things: Thing) -> int:
+    result = 0
+    for i, thing in enumerate(things):
+        if genome[i] == 1:
+            result += thing.value
+    
+    return result
+
+
 print(f"number of generations: {generations}")
 print(f"time: {end - start}s")
 print(f"best solution: {genome_to_things(population[0], more_things)}")
-# print(f"best solution: {population[0]}")
+print(f"best value: {genome_to_value(population[0], more_things)}")
