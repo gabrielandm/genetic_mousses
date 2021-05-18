@@ -3,6 +3,7 @@ from random import choices, randint, randrange, random
 from typing import List, Callable, Tuple, Optional
 from functools import partial
 import time
+import csv
 
 Genome = List[int]
 Population = List[Genome]
@@ -13,21 +14,18 @@ CrossoverFunc = Callable[[Genome, Genome], Tuple[Genome, Genome]]
 MutationFunc = Callable[[Genome], Genome]
 Thing = namedtuple('Thing', ['name', 'value', 'weight'])
 
-things = [
+more_things = [
     Thing('Laptop', 500, 2200),
     Thing('Headphones', 150, 160),
     Thing('Coffee Mug', 60, 350),
     Thing('Notepad', 40, 192),
     Thing('Mousse', 333, 333),
-]
-
-more_things = [
     Thing('Mints', 5, 25),
     Thing('Socks', 10, 38),
     Thing('Tissues', 15, 80),
     Thing('Phone', 500, 200),
     Thing('Baseball Cap', 100, 70),
-] + things
+]
 
 def generate_genome(lenght: int) -> Genome:
     return choices([0, 1], k=lenght)
@@ -125,8 +123,8 @@ population, generations = run_evolution(
     fitness_func = partial(
         fitness, things = more_things, weight_limit = 3000 # Limit of weight of list of items
     ),
-    fitness_limit = 1448, # Minimum desired "value" value of list of items
-    generation_limit = 100 # Limit of generations
+    fitness_limit = 1588, # Minimum desired "value" value of list of items
+    generation_limit = 500 # Limit of generations
 )
 end = time.time()
 
@@ -146,8 +144,37 @@ def genome_to_value(genome: Genome, things: Thing) -> int:
     
     return result
 
-
 print(f"number of generations: {generations}")
 print(f"time: {end - start}s")
 print(f"best solution: {genome_to_things(population[0], more_things)}")
 print(f"best value: {genome_to_value(population[0], more_things)}")
+
+# table = []
+
+# with open('results.csv', 'r', newline='') as csvfile:
+#     reader = csv.DictReader(csvfile)
+#     for row in reader:
+#         row_data = {
+#             "processing_time": row["processing_time"],
+#             "solution": row["solution"],
+#             "generation_number": row["generation_number"],
+#             "total_value": row["total_value"]
+#         }
+
+#         table.append(row_data)
+
+# new_row = {
+#     'processing_time': end - start,
+#     'solution': genome_to_things(population[0], more_things),
+#     'generation_number': generations,
+#     'total_value': genome_to_value(population[0], more_things)
+# }
+# table.append(new_row)
+
+# with open('results.csv', 'w', newline='') as csvfile:
+#     fieldnames = ['processing_time', 'solution', 'generation_number', 'total_value']
+#     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+#     writer.writeheader()
+
+#     for row in table:
+#         writer.writerow(row)
