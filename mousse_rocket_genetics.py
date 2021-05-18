@@ -24,7 +24,7 @@ mo = 1.3*10^4 # Initial rocket mass [kg] # UwU
 D = 1.2 # Rocket diameter [meters]
 Mf = 1.25*10^4 # Fuel mass [kg]
 dmdt = 650 # Engine fuel flow rate [kg]
-dt = 0.1 # Iteration time [s]
+dt = 0.3 # Iteration time [s]
 gimble_limit = 7 # Gimble limit [degree]
 orbital_height = 10^6 # Final height [meters]
 G = 6.67*10^-11
@@ -118,7 +118,10 @@ def things_calculator(rocket_stuff):
     # calcular massa do foguete
     mf = m + rocket_mass_variation()
     
-    téta = atan(vy / vx)
+    if vx == 0:
+        téta = pi / 2
+    else:
+        téta = atan(vy / vx)
     
     # Força do engine
     Fmx = thrust * throtle * cos(téta + gimble)
@@ -151,3 +154,4 @@ def things_calculator(rocket_stuff):
  h == orbital_height
  vy == 0
 '''
+
