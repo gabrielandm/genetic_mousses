@@ -19,12 +19,22 @@ more_things = [
     Thing('Headphones', 150, 160),
     Thing('Coffee Mug', 60, 350),
     Thing('Notepad', 40, 192),
-    Thing('Mousse', 333, 333),
+    Thing('Mousse', 333, 33),
     Thing('Mints', 5, 25),
     Thing('Socks', 10, 38),
     Thing('Tissues', 15, 80),
     Thing('Phone', 500, 200),
     Thing('Baseball Cap', 100, 70),
+    Thing('Microphone', 225, 250),
+    Thing('Hamburger', 300, 400),
+    Thing('VR', 400, 500),
+    Thing('Webcam', 90, 120),
+    Thing('Video card', 333, 333),
+    Thing('USB cable', 80, 30),
+    Thing('Dualshock 4', 200, 325),
+    Thing('Keyboard', 45, 300),
+    Thing('Tablet', 450, 500),
+    Thing('Hoodie', 100, 170),
 ]
 
 def generate_genome(lenght: int) -> Genome:
@@ -123,8 +133,8 @@ population, generations = run_evolution(
     fitness_func = partial(
         fitness, things = more_things, weight_limit = 3000 # Limit of weight of list of items
     ),
-    fitness_limit = 1588, # Minimum desired "value" value of list of items
-    generation_limit = 500 # Limit of generations
+    fitness_limit = 3176, # Minimum desired "value" value of list of items
+    generation_limit = 5000 # Limit of generations
 )
 end = time.time()
 
@@ -144,13 +154,16 @@ def genome_to_value(genome: Genome, things: Thing) -> int:
     
     return result
 
-print(f"number of generations: {generations}")
-print(f"time: {end - start}s")
-print(f"best solution: {genome_to_things(population[0], more_things)}")
-print(f"best value: {genome_to_value(population[0], more_things)}")
+### INFO LOG ###
+
+# print(f"number of generations: {generations}")
+# print(f"time: {end - start}s")
+# print(f"best solution: {genome_to_things(population[0], more_things)}")
+# print(f"best value: {genome_to_value(population[0], more_things)}")
+
+### CSV SAVING ###
 
 # table = []
-
 # with open('results.csv', 'r', newline='') as csvfile:
 #     reader = csv.DictReader(csvfile)
 #     for row in reader:
